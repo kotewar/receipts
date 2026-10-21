@@ -69,6 +69,14 @@ PYTHONPATH=. .venv/bin/python scripts/build_demo.py
 `scripts/make_fixture_repo.py` builds the 12-commit demo repo, including two commits that
 touch hundreds of lines and mean nothing and one that touches six lines and matters.
 
+`scripts/check_gate.py` is the gate's own test set: twenty cases, each a sentence and the
+commit it claims. Eleven must be flagged, nine must stay clean, and every case came from
+reading real model output rather than designing the rules first.
+
+```bash
+PYTHONPATH=. .venv/bin/python scripts/check_gate.py    # 20/20
+```
+
 ## What it does not do
 
 - It cannot tell whether a sentence is *true about the code*. It checks that the receipt
