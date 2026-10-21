@@ -1,0 +1,15 @@
+# The hosted demo. The model does not run here -- the free plan has no accelerator
+# and the model is 1.9 GB -- so the page serves one real saved run (data/demo.json)
+# and says so. The gate in app/trace.py is live code: it re-judges nothing at
+# request time, because the verdicts it produced are part of the saved run.
+
+services:
+  - type: web
+    name: receipts
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"

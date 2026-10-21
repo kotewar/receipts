@@ -1,0 +1,299 @@
+{
+  "variant": "primed",
+  "runs": 3,
+  "window": [
+    "2026-10-13",
+    "2026-10-17"
+  ],
+  "commits_in_window": 12,
+  "bullets": 18,
+  "clean": 12,
+  "flagged": 6,
+  "multi_cite": 0,
+  "mixed": 0,
+  "by_rule": {
+    "inflation": 4,
+    "grounding": 3
+  },
+  "distinct_commits_cited": 8,
+  "commits_never_mentioned": [
+    "Rename qty to quantity",
+    "Fix null check in parse_invoice",
+    "Fix typo in README",
+    "Initial commit: invoice totals from a CSV"
+  ],
+  "rows": [
+    {
+      "run": 1,
+      "text": "Documented the retry behavior for `rates.fetch_rate` which retries three times with a short backoff before raising an error due to a nightly 502 response from the rate provider",
+      "cites": [
+        "427564b"
+      ],
+      "cited": "427564b",
+      "clean": true,
+      "supported_by": "427564b",
+      "mixed": false,
+      "commit_message": "Document the retry behaviour",
+      "findings": []
+    },
+    {
+      "run": 1,
+      "text": "Bumped the version to 1.2.1, updating the `VERSION` variable in `invoice.py`",
+      "cites": [
+        "4d0211e"
+      ],
+      "cited": "4d0211e",
+      "clean": true,
+      "supported_by": "4d0211e",
+      "mixed": false,
+      "commit_message": "Bump version to 1.2.1",
+      "findings": []
+    },
+    {
+      "run": 1,
+      "text": "Improved error handling by adjusting the sleep time within `rates.fetch_rate` to 0.25 * (attempt + 1)",
+      "cites": [
+        "96af196"
+      ],
+      "cited": "96af196",
+      "clean": true,
+      "supported_by": "96af196",
+      "mixed": false,
+      "commit_message": "Improve error handling",
+      "findings": []
+    },
+    {
+      "run": 1,
+      "text": "Added a test case for empty input files, specifically handling the scenario where the CSV contains no data",
+      "cites": [
+        "dfb871a"
+      ],
+      "cited": "dfb871a",
+      "clean": false,
+      "supported_by": null,
+      "mixed": false,
+      "commit_message": "Pin requests<3",
+      "findings": [
+        {
+          "rule": "inflation",
+          "detail": "claim says 'added' (strength 3) for a commit that says 'Pin requests<3' (strength 1)"
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "text": "Implemented an `export_rows` function to generate a CSV file from invoice data, including a header row",
+      "cites": [
+        "5841781"
+      ],
+      "cited": "5841781",
+      "clean": false,
+      "supported_by": null,
+      "mixed": false,
+      "commit_message": "Run black",
+      "findings": [
+        {
+          "rule": "inflation",
+          "detail": "claim says 'implemented' (strength 3) for a commit that says 'Run black' (strength 1)"
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "text": "Fixed a null check in the `parse_invoice` function to gracefully handle missing 'qty' values in the input CSV",
+      "cites": [
+        "2936fec"
+      ],
+      "cited": "2936fec",
+      "clean": false,
+      "supported_by": null,
+      "mixed": false,
+      "commit_message": "Add retry to fetch_rate",
+      "findings": [
+        {
+          "rule": "grounding",
+          "detail": "claim names 'parse_invoice', which the commit never touches"
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "text": "Documented the retry behavior for `rates.fetch_rate` which retries three times with a short backoff before raising an error due to a nightly 502 response from the rate provider",
+      "cites": [
+        "427564b"
+      ],
+      "cited": "427564b",
+      "clean": true,
+      "supported_by": "427564b",
+      "mixed": false,
+      "commit_message": "Document the retry behaviour",
+      "findings": []
+    },
+    {
+      "run": 2,
+      "text": "Bumped the version to 1.2.1, updating the `VERSION` variable in `invoice.py`",
+      "cites": [
+        "4d0211e"
+      ],
+      "cited": "4d0211e",
+      "clean": true,
+      "supported_by": "4d0211e",
+      "mixed": false,
+      "commit_message": "Bump version to 1.2.1",
+      "findings": []
+    },
+    {
+      "run": 2,
+      "text": "Improved error handling by introducing a delay between retry attempts in `rates.py`, reducing the likelihood of overwhelming the rate provider",
+      "cites": [
+        "96af196"
+      ],
+      "cited": "96af196",
+      "clean": true,
+      "supported_by": "96af196",
+      "mixed": false,
+      "commit_message": "Improve error handling",
+      "findings": []
+    },
+    {
+      "run": 2,
+      "text": "Added a test case for empty input files within `tests/test_empty.py`, ensuring correct behavior when the CSV is blank",
+      "cites": [
+        "f635987"
+      ],
+      "cited": "f635987",
+      "clean": true,
+      "supported_by": "f635987",
+      "mixed": false,
+      "commit_message": "Add test for empty input",
+      "findings": []
+    },
+    {
+      "run": 2,
+      "text": "Implemented an automated CSV export functionality using the `export_rows` function in `export.py`, generating a CSV file from invoice data",
+      "cites": [
+        "5841781"
+      ],
+      "cited": "5841781",
+      "clean": false,
+      "supported_by": null,
+      "mixed": false,
+      "commit_message": "Run black",
+      "findings": [
+        {
+          "rule": "inflation",
+          "detail": "claim says 'implemented' (strength 3) for a commit that says 'Run black' (strength 1)"
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "text": "Fixed a null check issue in `parse_invoice` within `invoice.py`, preventing errors when encountering missing 'qty' values",
+      "cites": [
+        "2936fec"
+      ],
+      "cited": "2936fec",
+      "clean": false,
+      "supported_by": null,
+      "mixed": false,
+      "commit_message": "Add retry to fetch_rate",
+      "findings": [
+        {
+          "rule": "grounding",
+          "detail": "claim names 'parse_invoice', which the commit never touches"
+        },
+        {
+          "rule": "grounding",
+          "detail": "claim names 'invoice.py', which the commit never touches"
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "text": "Documented the retry behavior for `rates.fetch_rate` which attempts three times with a short backoff before raising an error due to a nightly 502 response from the rate provider",
+      "cites": [
+        "427564b"
+      ],
+      "cited": "427564b",
+      "clean": true,
+      "supported_by": "427564b",
+      "mixed": false,
+      "commit_message": "Document the retry behaviour",
+      "findings": []
+    },
+    {
+      "run": 3,
+      "text": "Bumped the version to 1.2.1, updating the `VERSION` variable in `invoice.py`",
+      "cites": [
+        "4d0211e"
+      ],
+      "cited": "4d0211e",
+      "clean": true,
+      "supported_by": "4d0211e",
+      "mixed": false,
+      "commit_message": "Bump version to 1.2.1",
+      "findings": []
+    },
+    {
+      "run": 3,
+      "text": "Improved error handling by adjusting the sleep duration within `rates.py` to 0.25 seconds for retry attempts",
+      "cites": [
+        "96af196"
+      ],
+      "cited": "96af196",
+      "clean": true,
+      "supported_by": "96af196",
+      "mixed": false,
+      "commit_message": "Improve error handling",
+      "findings": []
+    },
+    {
+      "run": 3,
+      "text": "Added a new test case (`test_empty.py`) to handle empty input CSV files, returning a total of 0",
+      "cites": [
+        "dfb871a"
+      ],
+      "cited": "dfb871a",
+      "clean": false,
+      "supported_by": null,
+      "mixed": false,
+      "commit_message": "Pin requests<3",
+      "findings": [
+        {
+          "rule": "grounding",
+          "detail": "claim names 'test_empty', which the commit never touches"
+        },
+        {
+          "rule": "inflation",
+          "detail": "claim says 'added' (strength 3) for a commit that says 'Pin requests<3' (strength 1)"
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "text": "Ran black to format the code in `export.py`, `invoice.py`, and `rates.py`",
+      "cites": [
+        "5841781"
+      ],
+      "cited": "5841781",
+      "clean": true,
+      "supported_by": "5841781",
+      "mixed": false,
+      "commit_message": "Run black",
+      "findings": []
+    },
+    {
+      "run": 3,
+      "text": "Implemented CSV export functionality using the `export_rows` function, writing data to a CSV file",
+      "cites": [
+        "4b8421b"
+      ],
+      "cited": "4b8421b",
+      "clean": true,
+      "supported_by": "4b8421b",
+      "mixed": false,
+      "commit_message": "Add CSV export",
+      "findings": []
+    }
+  ]
+}

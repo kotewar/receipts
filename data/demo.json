@@ -1,0 +1,299 @@
+{
+  "client": "demo-client",
+  "variant": "primed",
+  "run": 1,
+  "window": [
+    "2026-10-13",
+    "2026-10-17"
+  ],
+  "commits": [
+    {
+      "short": "427564b",
+      "message": "Document the retry behaviour",
+      "date": "2026-10-17",
+      "files": [
+        "README.md"
+      ],
+      "insertions": 6,
+      "deletions": 0,
+      "diff": "diff --git a/README.md b/README.md\nindex eaad567..e202f2b 100644\n--- a/README.md\n+++ b/README.md\n@@ -5,0 +6,6 @@ Run `python invoice.py lines.csv`.\n+\n+## Rate lookups\n+\n+`rates.fetch_rate` retries three times with a short backoff before it raises.\n+The retry exists because the rate provider returns a 502 during its nightly\n+window, which used to surface as a blank total rather than an error.\n"
+    },
+    {
+      "short": "4d0211e",
+      "message": "Bump version to 1.2.1",
+      "date": "2026-10-17",
+      "files": [
+        "invoice.py"
+      ],
+      "insertions": 1,
+      "deletions": 1,
+      "diff": "diff --git a/invoice.py b/invoice.py\nindex 76500af..96896da 100644\n--- a/invoice.py\n+++ b/invoice.py\n@@ -4 +4 @@ import json\n-VERSION = '1.2.0'\n+VERSION = \"1.2.1\"\n"
+    },
+    {
+      "short": "96af196",
+      "message": "Improve error handling",
+      "date": "2026-10-16",
+      "files": [
+        "rates.py"
+      ],
+      "insertions": 1,
+      "deletions": 1,
+      "diff": "diff --git a/rates.py b/rates.py\nindex 9c32797..6b96100 100644\n--- a/rates.py\n+++ b/rates.py\n@@ -14 +14 @@ def   fetch_rate(base, quote, attempts=3):\n-            time.sleep(0.2 * (attempt + 1))\n+            time.sleep(0.25 * (attempt + 1))\n"
+    },
+    {
+      "short": "dfb871a",
+      "message": "Pin requests<3",
+      "date": "2026-10-16",
+      "files": [
+        "requirements.txt"
+      ],
+      "insertions": 1,
+      "deletions": 1,
+      "diff": "diff --git a/requirements.txt b/requirements.txt\nindex 2c24336..986ca33 100644\n--- a/requirements.txt\n+++ b/requirements.txt\n@@ -1 +1 @@\n-requests==2.31.0\n+requests<3\n"
+    },
+    {
+      "short": "f635987",
+      "message": "Add test for empty input",
+      "date": "2026-10-16",
+      "files": [
+        "tests/test_empty.py"
+      ],
+      "insertions": 7,
+      "deletions": 0,
+      "diff": "diff --git a/tests/test_empty.py b/tests/test_empty.py\nnew file mode 100644\nindex 0000000..9c22224\n--- /dev/null\n+++ b/tests/test_empty.py\n@@ -0,0 +1,7 @@\n+from invoice import parse_invoice, total\n+\n+\n+def test_empty_file(tmp_path):\n+    path = tmp_path / \"empty.csv\"\n+    path.write_text(\"client,qty,rate\\n\")\n+    assert total(parse_invoice(path)) == 0\n"
+    },
+    {
+      "short": "5841781",
+      "message": "Run black",
+      "date": "2026-10-15",
+      "files": [
+        "export.py",
+        "invoice.py",
+        "rates.py"
+      ],
+      "insertions": 20,
+      "deletions": 20,
+      "diff": "diff --git a/export.py b/export.py\nindex cf84cfb..6e5efe7 100644\n--- a/export.py\n+++ b/export.py\n@@ -4,3 +4,3 @@ import csv\n-def export_rows(rows, path):\n-    fields = [\"client\", \"quantity\", \"rate\"]\n-    with open(path, \"w\", newline=\"\") as handle:\n+def   export_rows(rows, path):\n+    fields = ['client', 'quantity', 'rate']\n+    with open(path, 'w', newline='') as handle:\ndiff --git a/invoice.py b/invoice.py\nindex 550a433..76500af 100644\n--- a/invoice.py\n+++ b/invoice.py\n@@ -4 +4 @@ import json\n-VERSION = \"1.2.0\"\n+VERSION = '1.2.0'\n@@ -7 +7 @@ VERSION = \"1.2.0\"\n-def parse_invoice(path):\n+def   parse_invoice(path):\n@@ -9 +9 @@ def parse_invoice(path):\n-    with open(path, newline=\"\") as handle"
+    },
+    {
+      "short": "d5efa76",
+      "message": "Rename qty to quantity",
+      "date": "2026-10-15",
+      "files": [
+        "export.py",
+        "invoice.py"
+      ],
+      "insertions": 5,
+      "deletions": 5,
+      "diff": "diff --git a/export.py b/export.py\nindex 267f443..cf84cfb 100644\n--- a/export.py\n+++ b/export.py\n@@ -5 +5 @@ def export_rows(rows, path):\n-    fields = [\"client\", \"qty\", \"rate\"]\n+    fields = [\"client\", \"quantity\", \"rate\"]\ndiff --git a/invoice.py b/invoice.py\nindex 3db7744..550a433 100644\n--- a/invoice.py\n+++ b/invoice.py\n@@ -11,2 +11,2 @@ def parse_invoice(path):\n-            qty = row.get(\"qty\")\n-            if qty in (None, \"\"):\n+            quantity = row.get(\"quantity\")\n+            if quantity in (None, \"\"):\n@@ -17 +17 @@ def parse_invoice(path):\n-                    \"qty\": int(qty),\n+                    \"quantity\": int(quantity),\n@@ -25 +25 @@ def total(rows):\n-    return sum(row[\"qty"
+    },
+    {
+      "short": "4b8421b",
+      "message": "Add CSV export",
+      "date": "2026-10-15",
+      "files": [
+        "export.py"
+      ],
+      "insertions": 10,
+      "deletions": 0,
+      "diff": "diff --git a/export.py b/export.py\nnew file mode 100644\nindex 0000000..267f443\n--- /dev/null\n+++ b/export.py\n@@ -0,0 +1,10 @@\n+import csv\n+\n+\n+def export_rows(rows, path):\n+    fields = [\"client\", \"qty\", \"rate\"]\n+    with open(path, \"w\", newline=\"\") as handle:\n+        writer = csv.DictWriter(handle, fieldnames=fields)\n+        writer.writeheader()\n+        for row in rows:\n+            writer.writerow({key: row[key] for key in fields})\n"
+    },
+    {
+      "short": "2936fec",
+      "message": "Add retry to fetch_rate",
+      "date": "2026-10-14",
+      "files": [
+        "rates.py"
+      ],
+      "insertions": 15,
+      "deletions": 0,
+      "diff": "diff --git a/rates.py b/rates.py\nnew file mode 100644\nindex 0000000..3926c39\n--- /dev/null\n+++ b/rates.py\n@@ -0,0 +1,15 @@\n+import time\n+import urllib.request\n+\n+\n+def fetch_rate(base, quote, attempts=3):\n+    url = f\"https://api.example.com/rates?base={base}&quote={quote}\"\n+    last = None\n+    for attempt in range(attempts):\n+        try:\n+            with urllib.request.urlopen(url) as response:\n+                return float(response.read().decode())\n+        except OSError as exc:\n+            last = exc\n+            time.sleep(0.2 * (attempt + 1))\n+    raise RuntimeError(f\"rate fetch failed after {attempts} attempts\") from last\n"
+    },
+    {
+      "short": "44860b4",
+      "message": "Fix null check in parse_invoice",
+      "date": "2026-10-14",
+      "files": [
+        "invoice.py"
+      ],
+      "insertions": 4,
+      "deletions": 1,
+      "diff": "diff --git a/invoice.py b/invoice.py\nindex 4a03797..3db7744 100644\n--- a/invoice.py\n+++ b/invoice.py\n@@ -10,0 +11,3 @@ def parse_invoice(path):\n+            qty = row.get(\"qty\")\n+            if qty in (None, \"\"):\n+                continue\n@@ -14 +17 @@ def parse_invoice(path):\n-                    \"qty\": int(row[\"qty\"]),\n+                    \"qty\": int(qty),\n"
+    },
+    {
+      "short": "c367503",
+      "message": "Fix typo in README",
+      "date": "2026-10-13",
+      "files": [
+        "README.md"
+      ],
+      "insertions": 2,
+      "deletions": 0,
+      "diff": "diff --git a/README.md b/README.md\nindex 867f128..eaad567 100644\n--- a/README.md\n+++ b/README.md\n@@ -3,0 +4,2 @@ Turns a CSV of client line items into a total.\n+\n+Run `python invoice.py lines.csv`.\n"
+    },
+    {
+      "short": "0e9dced",
+      "message": "Initial commit: invoice totals from a CSV",
+      "date": "2026-10-13",
+      "files": [
+        "README.md",
+        "invoice.py",
+        "requirements.txt"
+      ],
+      "insertions": 31,
+      "deletions": 0,
+      "diff": "diff --git a/README.md b/README.md\nnew file mode 100644\nindex 0000000..867f128\n--- /dev/null\n+++ b/README.md\n@@ -0,0 +1,3 @@\n+# invoice\n+\n+Turns a CSV of client line items into a total.\ndiff --git a/invoice.py b/invoice.py\nnew file mode 100644\nindex 0000000..4a03797\n--- /dev/null\n+++ b/invoice.py\n@@ -0,0 +1,27 @@\n+import csv\n+import json\n+\n+VERSION = \"1.2.0\"\n+\n+\n+def parse_invoice(path):\n+    rows = []\n+    with open(path, newline=\"\") as handle:\n+        for row in csv.DictReader(handle):\n+            rows.append(\n+                {\n+                    \"client\": row[\"client\"],\n+                    \"qty\": int(row[\"qty\"]),\n+                    \"rate\": float(row[\"rate\"]),\n+                }\n+ "
+    }
+  ],
+  "bullets": [
+    {
+      "text": "Documented the retry behavior for `rates.fetch_rate` which retries three times with a short backoff before raising an error due to a nightly 502 response from the rate provider",
+      "cites": [
+        "427564b"
+      ],
+      "clean": true,
+      "findings": [],
+      "receipt": {
+        "short": "427564b",
+        "message": "Document the retry behaviour",
+        "date": "2026-10-17",
+        "files": [
+          "README.md"
+        ],
+        "insertions": 6,
+        "deletions": 0,
+        "diff": "diff --git a/README.md b/README.md\nindex eaad567..e202f2b 100644\n--- a/README.md\n+++ b/README.md\n@@ -5,0 +6,6 @@ Run `python invoice.py lines.csv`.\n+\n+## Rate lookups\n+\n+`rates.fetch_rate` retries three times with a short backoff before it raises.\n+The retry exists because the rate provider returns a 502 during its nightly\n+window, which used to surface as a blank total rather than an error.\n"
+      },
+      "needs": null,
+      "fabricated": false
+    },
+    {
+      "text": "Bumped the version to 1.2.1, updating the `VERSION` variable in `invoice.py`",
+      "cites": [
+        "4d0211e"
+      ],
+      "clean": true,
+      "findings": [],
+      "receipt": {
+        "short": "4d0211e",
+        "message": "Bump version to 1.2.1",
+        "date": "2026-10-17",
+        "files": [
+          "invoice.py"
+        ],
+        "insertions": 1,
+        "deletions": 1,
+        "diff": "diff --git a/invoice.py b/invoice.py\nindex 76500af..96896da 100644\n--- a/invoice.py\n+++ b/invoice.py\n@@ -4 +4 @@ import json\n-VERSION = '1.2.0'\n+VERSION = \"1.2.1\"\n"
+      },
+      "needs": null,
+      "fabricated": false
+    },
+    {
+      "text": "Improved error handling by adjusting the sleep time within `rates.fetch_rate` to 0.25 * (attempt + 1)",
+      "cites": [
+        "96af196"
+      ],
+      "clean": true,
+      "findings": [],
+      "receipt": {
+        "short": "96af196",
+        "message": "Improve error handling",
+        "date": "2026-10-16",
+        "files": [
+          "rates.py"
+        ],
+        "insertions": 1,
+        "deletions": 1,
+        "diff": "diff --git a/rates.py b/rates.py\nindex 9c32797..6b96100 100644\n--- a/rates.py\n+++ b/rates.py\n@@ -14 +14 @@ def   fetch_rate(base, quote, attempts=3):\n-            time.sleep(0.2 * (attempt + 1))\n+            time.sleep(0.25 * (attempt + 1))\n"
+      },
+      "needs": null,
+      "fabricated": false
+    },
+    {
+      "text": "Added a test case for empty input files, specifically handling the scenario where the CSV contains no data",
+      "cites": [
+        "dfb871a"
+      ],
+      "clean": false,
+      "findings": [
+        {
+          "rule": "inflation",
+          "detail": "claim says 'added' (strength 3) for a commit that says 'Pin requests<3' (strength 1)"
+        }
+      ],
+      "receipt": {
+        "short": "dfb871a",
+        "message": "Pin requests<3",
+        "date": "2026-10-16",
+        "files": [
+          "requirements.txt"
+        ],
+        "insertions": 1,
+        "deletions": 1,
+        "diff": "diff --git a/requirements.txt b/requirements.txt\nindex 2c24336..986ca33 100644\n--- a/requirements.txt\n+++ b/requirements.txt\n@@ -1 +1 @@\n-requests==2.31.0\n+requests<3\n"
+      },
+      "needs": "f635987",
+      "fabricated": false
+    },
+    {
+      "text": "Implemented an `export_rows` function to generate a CSV file from invoice data, including a header row",
+      "cites": [
+        "5841781"
+      ],
+      "clean": false,
+      "findings": [
+        {
+          "rule": "inflation",
+          "detail": "claim says 'implemented' (strength 3) for a commit that says 'Run black' (strength 1)"
+        }
+      ],
+      "receipt": {
+        "short": "5841781",
+        "message": "Run black",
+        "date": "2026-10-15",
+        "files": [
+          "export.py",
+          "invoice.py",
+          "rates.py"
+        ],
+        "insertions": 20,
+        "deletions": 20,
+        "diff": "diff --git a/export.py b/export.py\nindex cf84cfb..6e5efe7 100644\n--- a/export.py\n+++ b/export.py\n@@ -4,3 +4,3 @@ import csv\n-def export_rows(rows, path):\n-    fields = [\"client\", \"quantity\", \"rate\"]\n-    with open(path, \"w\", newline=\"\") as handle:\n+def   export_rows(rows, path):\n+    fields = ['client', 'quantity', 'rate']\n+    with open(path, 'w', newline='') as handle:\ndiff --git a/invoice.py b/invoice.py\nindex 550a433..76500af 100644\n--- a/invoice.py\n+++ b/invoice.py\n@@ -4 +4 @@ import json\n-VERSION = \"1.2.0\"\n+VERSION = '1.2.0'\n@@ -7 +7 @@ VERSION = \"1.2.0\"\n-def parse_invoice(path):\n+def   parse_invoice(path):\n@@ -9 +9 @@ def parse_invoice(path):\n-    with open(path, newline=\"\") as handle"
+      },
+      "needs": "4b8421b",
+      "fabricated": false
+    },
+    {
+      "text": "Fixed a null check in the `parse_invoice` function to gracefully handle missing 'qty' values in the input CSV",
+      "cites": [
+        "2936fec"
+      ],
+      "clean": false,
+      "findings": [
+        {
+          "rule": "grounding",
+          "detail": "claim names 'parse_invoice', which the commit never touches"
+        }
+      ],
+      "receipt": {
+        "short": "2936fec",
+        "message": "Add retry to fetch_rate",
+        "date": "2026-10-14",
+        "files": [
+          "rates.py"
+        ],
+        "insertions": 15,
+        "deletions": 0,
+        "diff": "diff --git a/rates.py b/rates.py\nnew file mode 100644\nindex 0000000..3926c39\n--- /dev/null\n+++ b/rates.py\n@@ -0,0 +1,15 @@\n+import time\n+import urllib.request\n+\n+\n+def fetch_rate(base, quote, attempts=3):\n+    url = f\"https://api.example.com/rates?base={base}&quote={quote}\"\n+    last = None\n+    for attempt in range(attempts):\n+        try:\n+            with urllib.request.urlopen(url) as response:\n+                return float(response.read().decode())\n+        except OSError as exc:\n+            last = exc\n+            time.sleep(0.2 * (attempt + 1))\n+    raise RuntimeError(f\"rate fetch failed after {attempts} attempts\") from last\n"
+      },
+      "needs": "44860b4",
+      "fabricated": false
+    }
+  ],
+  "stats": {
+    "bullets": 6,
+    "flagged": 3,
+    "fabricated": 0,
+    "rescued": 3
+  }
+}
